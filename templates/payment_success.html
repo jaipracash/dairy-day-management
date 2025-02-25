@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DairyDay - Payment Success</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="payment-container">
+        <h2 class="section-title">Payment Successful</h2>
+        <p class="message success">{{ message }}</p>
+        <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+        <a href="{{ url_for('user_orders') }}" class="btn">View My Orders</a>
+    </div>
+    <div class="section-gap"></div>
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

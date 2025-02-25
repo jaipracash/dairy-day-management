@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="admin-container">
+        <h2 class="section-title">Admin Panel</h2>
+        
+        <!-- Users List -->
+        <h3 class="section-subtitle">Users</h3>
+        <div class="vertical-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Admin Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Orders List -->
+        <h3 class="section-subtitle">Orders</h3>
+        <div class="vertical-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.user_id }}</td>
+                            <td>
+                                <ul style="list-style: none; padding: 0;">
+                                    {% for item in order.products %}
+                                        <li>{{ item.name }} (Qty: {{ item.quantity }}) - ₹{{ item.price * item.quantity }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>₹{{ order.total }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>{{ order.created_at }}</td>
+                            <td>
+                                {% if order.status == 'pending' %}
+                                    <button class="card-btn accept-btn" data-order-id="{{ order.id }}">Accept</button>
+                                {% else %}
+                                    <span>{{ order.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.accept-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-order-id');
+                fetch(`/admin/order/${orderId}/accept`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCsrfToken() // Ensure CSRF protection if using Flask-WTF
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        flashMessage(data.message, 'success');
+                        this.textContent = 'Accepted';
+                        this.disabled = true;
+                        this.classList.remove('card-btn');
+                    } else {
+                        flashMessage(data.error, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error accepting order:', error);
+                    flashMessage('Failed to accept order. Please try again.', 'error');
+                });
+            });
+        });
+
+        function getCsrfToken() {
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            return meta ? meta.getAttribute('content') : '';
+        }
+
+        function flashMessage(message, category) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${category}`;
+            messageDiv.textContent = message;
+            document.querySelector('.admin-container').appendChild(messageDiv);
+            setTimeout(() => messageDiv.remove(), 3000); // Remove message after 3 seconds
+        }
+    </script>
+{% endblock %}

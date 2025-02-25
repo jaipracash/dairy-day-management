@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DairyDay - Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="payment-container">
+        <h2 class="section-title">Checkout</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, method in messages %}
+                    <div class="message {{ category }}">{{ method }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <ul class="order-list">
+            {% for item in cart_items %}
+                <li>{{ item.name }} (x{{ item.quantity }}) - ₹{{ item.total }}</li>
+            {% endfor %}
+        </ul>
+        <p class="total">Total: ₹{{ total }}</p>
+        <form method="POST" action="{{ url_for('process_payment') }}" id="payment-form">
+            <select name="payment_method" class="payment-select" onchange="togglePaymentOptions(this.value)">
+                <option value="">Select Payment Method</option>
+                <option value="cash_on_delivery">Cash on Delivery</option>
+                <option value="online_pay">Online Pay (GPay)</option>
+            </select>
+            <div id="gpay-qr" style="display: none; margin-top: 1rem;">
+                <img src="{{ url_for('static', filename='images/gpay_qr.png') }}" alt="GPay QR Code" class="qr-code" onerror="this.style.display='none'; alert('GPay QR code not found.');">
+                <p class="message info">Scan the QR code to pay with GPay.</p>
+            </div>
+            <button type="submit" class="btn" id="payment-btn" disabled>Process Payment</button>
+        </form>
+        <a href="{{ url_for('home') }}" class="btn">Cancel</a>
+    </div>
+    <div class="section-gap"></div>
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        function togglePaymentOptions(value) {
+            const gpayQr = document.getElementById('gpay-qr');
+            const paymentBtn = document.getElementById('payment-btn');
+            if (value === 'online_pay') {
+                gpayQr.style.display = 'block';
+                paymentBtn.disabled = false; // Enable button for GPay
+            } else {
+                gpayQr.style.display = 'none';
+                paymentBtn.disabled = value === ''; // Disable if no method selected
+            }
+        }
+    </script>
+</body>
+</html>

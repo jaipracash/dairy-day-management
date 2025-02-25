@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Categories Filter (Optional, as in the screenshot) -->
+
+
+    <h2 class="section-title">{{ category }}</h2>
+    <div class="product-grid">
+        {% for item in items %}
+            <div class="product-card">
+                <img src="{{ item.image }}" alt="{{ item.name }}" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">{{ item.name }}</h3>
+                    <p class="price">₹{{ item.price }}</p>
+                    <div class="button-group">
+                        <button onclick="addToCart({{ item.id }}, 1)" class="card-btn">Add to Cart</button>
+                        <a href="{{ url_for('product_details', product_id=item.id) }}" class="card-btn view-btn">View</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="section-gap"></div>
+
+{% endblock %}

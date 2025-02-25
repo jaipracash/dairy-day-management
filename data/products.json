@@ -1,0 +1,20 @@
+[
+    {"id": 81, "name": "Fresh Milk 500ml", "category": "Milk", "price": 50, "quantity": 100, "description": "Pure farm fresh milk", "image": "/static/images/Fresh_Milk_500ml.png"},
+    {"id": 82, "name": "Pure Ghee 250g", "category": "Butter", "price": 299, "quantity": 80, "description": "Rich and aromatic pure ghee", "image": "/static/images/pure_ghee_500g.png"},
+    {"id": 83, "name": "Greek Yogurt 200g", "category": "Yogurt", "price": 120, "quantity": 90, "description": "Thick and creamy Greek yogurt", "image": "/static/images/yogurt_200g.png"},
+    {"id": 84, "name": "Mozzarella Cheese 500g", "category": "Cheese", "price": 450, "quantity": 60, "description": "Fresh and stretchy mozzarella cheese", "image": "/static/images/Mozzarella_Cheese_500g.png"},
+    {"id": 85, "name": "Caramel Custard 250g", "category": "Custard", "price": 175, "quantity": 70, "description": "Delicious caramel-flavored custard", "image": "/static/images/Caramel_Custard_250g.png"},
+    {"id": 86, "name": "Vanilla Ice Cream 1L", "category": "Frozen", "price": 350, "quantity": 50, "description": "Classic creamy vanilla ice cream", "image": "/static/images/Vanilla_Ice_Cream_1l.png"},
+    {"id": 28, "name": "Cocoa Butter", "category": "Butter", "price": 275, "quantity": 45, "description": "Natural cocoa butter", "image": "/static/images/Cocoa_Butter.png"},
+    {"id": 29, "name": "Almond Butter", "category": "Butter", "price": 300, "quantity": 50, "description": "Nutty almond butter", "image": "/static/images/Almond_Butter.png"},
+    {"id": 30, "name": "Peanut Butter", "category": "Butter", "price": 275, "quantity": 55, "description": "Creamy peanut butter", "image": "/static/images/Peanut_Butter.png"},
+    {"id": 31, "name": "Kefir", "category": "Fermented", "price": 150, "quantity": 85, "description": "Probiotic kefir drink", "image": "/static/images/Kefir.png"},
+    {"id": 32, "name": "Lassi", "category": "Fermented", "price": 125, "quantity": 90, "description": "Refreshing lassi", "image": "/static/images/Lassi.png"},
+    {"id": 33, "name": "Buttermilk", "category": "Fermented", "price": 100, "quantity": 100, "description": "Traditional buttermilk", "image": "/static/images/ButterMilk.png"},
+    {"id": 34, "name": "Ayran", "category": "Fermented", "price": 113, "quantity": 95, "description": "Turkish yogurt drink", "image": "/static/images/Ayran.png"},
+    {"id": 35, "name": "Kumis", "category": "Fermented", "price": 175, "quantity": 70, "description": "Fermented mare's milk", "image": "/static/images/Kumis.png"},
+    {"id": 41, "name": "Greek Yogurt", "category": "Yogurt", "price": 175, "quantity": 70, "description": "Thick Greek yogurt", "image": "/static/images/Greek_Yogurt.png"},
+    {"id": 51, "name": "Mozzarella", "category": "Cheese", "price": 225, "quantity": 55, "description": "Stretchy mozzarella", "image": "/static/images/Mozzarella.png"},
+    {"id": 61, "name": "Vanilla Custard", "category": "Custard", "price": 150, "quantity": 75, "description": "Creamy vanilla custard", "image": "/static/images/Vanilla_Custard.png"},
+    {"id": 71, "name": "Ice Cream", "category": "Frozen", "price": 225, "quantity": 50, "description": "Classic ice cream", "image": "/static/images/Ice_Cream.png"}
+]

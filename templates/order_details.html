@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DairyDay - Order Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="content">
+        <h2 class="section-title">Order Details #{{ order.id }}</h2>
+        <p>Order Date: {{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        <p>Total Amount: ₹{{ order.total_amount }}</p>
+        <p>Status: {{ order.status }}</p>
+        <h3>Items:</h3>
+        <ul class="order-list">
+            {% for item in order.items %}
+                <li>{{ item.quantity }} x {{ item.product_id }} (₹{{ item.price }} each) - Total: ₹{{ item.quantity * item.price }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('user_orders') }}" class="btn">Back to Orders</a>
+    </div>
+    <div class="section-gap"></div>
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

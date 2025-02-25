@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Discount Offer Banner (no auto-hide) -->
+    <section class="discount-banner">
+        <div class="banner-content">
+            <h1>Flat 15% OFF on All Items!</h1>
+            <p>Limited Time Offer – Shop Now!</p>
+            <a href="#discount-items" class="shop-now-btn">Explore Discounts</a>
+        </div>
+        <img src="{{ url_for('static', filename='images/discount-banner.jpg') }}" alt="Discount Offer" class="banner-image" onerror="console.log('Image load error for discount-banner.jpg'); this.style.display='none'; this.parentElement.style.backgroundColor='#3498db';">
+    </section>
+
+    <section class="section popular-products">
+        <h2 class="section-title">Popular Products</h2>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="price">₹{{ product.price }}</p>
+                        <div class="button-group">
+                            <button onclick="addToCart({{ product.id }}, 1)" class="card-btn">Add to Cart</button>
+                            <a href="{{ url_for('product_details', product_id=product.id) }}" class="card-btn view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="section-gap"></div>
+
+    <section class="section top-sellers">
+        <h2 class="section-title">Top Sellers This Week</h2>
+        <div class="product-grid">
+            {% for product in top_sellers %}
+                <div class="product-card">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="price">₹{{ product.price }}</p>
+                        <div class="button-group">
+                            <button onclick="addToCart({{ product.id }}, 1)" class="card-btn">Add to Cart</button>
+                            <a href="{{ url_for('product_details', product_id=product.id) }}" class="card-btn view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="section-gap"></div>
+
+    <section id="discount-items" class="section discount-items">
+        <h2 class="section-title">Discount Items</h2>
+        <div class="product-grid">
+            {% for product in discount_items %}
+                <div class="product-card">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="price">
+                            <del>₹{{ product.price }}</del> <!-- Original price struck out -->
+                            <span class="discount-price">₹{{ product.price * 0.9 }}</span> <!-- Discounted price -->
+                        </p>
+                        <div class="button-group">
+                            <button onclick="addToCart({{ product.id }}, 1)" class="card-btn">Add to Cart</button>
+                            <a href="{{ url_for('product_details', product_id=product.id) }}" class="card-btn view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <div class="section-gap"></div>
+
+    {% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="product-details">
+        <div class="product-card large">
+            <img src="{{ product.image }}" alt="{{ product.name or 'Product Image' }}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">            <div class="product-placeholder" style="display: none;">Image not available</div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h1 class="product-name">{{ product.name if product else 'Product Not Found' }}</h1>
+                    <p class="price">Price: ₹{{ product.price if product and product.price else 'N/A' }}</p>
+                </div>
+                <div class="product-content">
+                    <p class="description">{{ product.description if product and product.description else 'No description available.' }}</p>
+                    <div class="quantity-section">
+                        <label for="quantity">Select Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.quantity if product and product.quantity else 10 }}">
+                    </div>
+                    <div class="button-group">
+                        {% if product and product.id %}
+                            <button onclick="addToCart({{ product.id }}, document.getElementById('quantity').value)" class="card-btn">Add to Cart</button>
+                        {% else %}
+                            <button class="card-btn" disabled>Add to Cart (Product Unavailable)</button>
+                        {% endif %}
+                        <a href="{{ url_for('home') }}" class="card-btn view-btn">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-gap"></div>
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Fallback for addToCart if JavaScript fails
+        function addToCart(productId, quantity) {
+            if (!productId || isNaN(productId) || !quantity || isNaN(quantity)) {
+                console.error('Invalid product ID or quantity:', productId, quantity);
+                alert('Error: Invalid product or quantity. Please try again.');
+                return;
+            }
+            fetch('/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `product_id=${encodeURIComponent(productId)}&quantity=${encodeURIComponent(quantity)}`
+            })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('cart-count').innerText = data.cart_count;
+                    alert('Item added to cart successfully!');
+                } else {
+                    console.error('Cart update failed:', data.message);
+                    alert('Failed to add item to cart: ' + (data.message || 'Please try again.'));
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('An error occurred while adding to cart. Please try again.');
+            });
+        }
+    </script>
+{% endblock %}

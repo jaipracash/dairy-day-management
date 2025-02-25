@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DairyDay - My Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="content">
+        <h2 class="section-title">My Orders</h2>
+        {% if orders %}
+            <div class="product-grid">
+                {% for order in orders %}
+                    <div class="product-card">
+                        <div class="product-info">
+                            <h3 class="product-name">Order #{{ order.id }} - {{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</h3>
+                            <p class="price">Total: ₹{{ order.total_amount }}</p>
+                            <p class="price">Status: {{ order.status }}</p>
+                            <a href="{{ url_for('order_details', order_id=order.id) }}" class="card-btn view-btn">View Details</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No orders found.</p>
+        {% endif %}
+    </div>
+    <div class="section-gap"></div>
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
